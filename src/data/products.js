@@ -2,7 +2,8 @@ export const products = [
   {
     id: 1,
     name: "Mouse",
-    description: "Un mouse inalámbrico ergonómico con alta precisión y batería de larga duración.",
+    description:
+      "Un mouse inalámbrico ergonómico con alta precisión y batería de larga duración.",
     price: 19.99,
     stock: 10,
     category: "Accesories",
@@ -11,12 +12,12 @@ export const products = [
   {
     id: 2,
     name: "Keyboard",
-    description: "Un teclado mecánico con retroiluminación RGB y switches de alta calidad para una experiencia de escritura superior.",
+    description:
+      "Un teclado mecánico con retroiluminación RGB y switches de alta calidad para una experiencia de escritura superior.",
     price: 19.99,
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=2",
-    
   },
   {
     id: 3,
@@ -28,7 +29,6 @@ export const products = [
     category: "Accesories",
 
     image: "https://picsum.photos/300/400?random=3",
-    
   },
   {
     id: 4,
@@ -39,7 +39,6 @@ export const products = [
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=4",
-    
   },
   {
     id: 5,
@@ -50,7 +49,6 @@ export const products = [
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=6",
-
   },
   {
     id: 6,
@@ -61,7 +59,6 @@ export const products = [
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=5",
-
   },
   {
     id: 7,
@@ -72,7 +69,6 @@ export const products = [
     stock: 10,
     category: "Tecnología",
     image: "https://picsum.photos/300/400?random=7",
-    
   },
   {
     id: 8,
@@ -84,7 +80,6 @@ export const products = [
     category: "Tecnología",
 
     image: "https://picsum.photos/300/400?random=8",
-    
   },
   {
     id: 9,
@@ -94,8 +89,6 @@ export const products = [
     price: 19.99,
     stock: 10,
     category: "Tecnología",
-
     image: "https://picsum.photos/300/400?random=9",
-
   },
 ];
