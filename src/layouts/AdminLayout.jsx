@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 function Adminlayout() {
   return (
     <>
-    <searchBox />
       <Header />
 
       <main className="admin-page">

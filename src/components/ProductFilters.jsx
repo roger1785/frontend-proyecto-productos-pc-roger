@@ -35,16 +35,6 @@ function ProductFilters({
         <option value="20+">Más de $20</option>
       </select>
 
-      {/* <select
-        className="filter-select"
-        value={sortBy}
-        onChange={(event) => onSortChange(event.target.value)}
-      >
-        <option value="default">Orden por defecto</option>
-        <option value="az">A-Z</option>
-        <option value="newest">Más nuevo</option>
-        <option value="oldest">Más viejo</option>
-      </select> */}
     </div>
   );
 }

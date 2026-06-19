@@ -10,8 +10,6 @@ function SearchBox({ products }) {
     .filter((product) => {
       const name = product.name.toLowerCase();
 
-      const price = product.price.toLowerCase();
-
       return (
         name.includes(normalizedSearch) || price.includes(normalizedSearch)
       );
