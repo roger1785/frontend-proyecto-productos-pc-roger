@@ -9,7 +9,7 @@ function ProductsPage() {
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
-  const [selectedDescription, setSelectedDescription] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
   const [sortBy, setSortBy] = useState("default");
 
   useEffect(() => {
@@ -19,9 +19,9 @@ function ProductsPage() {
           sortBy === "expensive" || sortBy === "cheapest" ? "price" : "name";
         const order = sortBy === "az" || sortBy === "cheapest" ? "asc" : "desc";
 
-        // console.log(search, field, order, selectedDescription);
+        // console.log(search, field, order, selectedPrice);
 
-        const data = await getProducts(1, 4, search, field, order, selectedDescription);
+        const data = await getProducts(1, 4, search, field, order, selectedPrice);
 
         // console.log("Productos cargados:", data);
 
@@ -33,21 +33,8 @@ function ProductsPage() {
       }
     };
     loadProducts();
-  }, [search, selectedDescription, sortBy]);
+  }, [search, selectedPrice, sortBy]);
 
-  // useEffect(() => {
-  //   const loadProducts = async () => {
-  //     const field =
-  //       sortBy === "newest" || sortBy === "oldest" ? "year" : "title";
-  //     const order = sortBy === "az" || sortBy === "newest" ? "asc" : "desc";
-
-  //     const products = await getProducts(search, field, order, selectedGenre);
-
-  //     setProducts(products);
-  //   };
-
-  //   loadProducts();
-  // }, [search, selectedGenre, sortBy]);
 
   const hasResults = products.length > 0;
 
@@ -72,11 +59,11 @@ function ProductsPage() {
 
           <ProductFilters
             search={search}
-            selectedDescription={selectedDescription}
+            selectedPrice={selectedPrice}
             sortBy={sortBy}
             priceRanges={priceRanges}
             onSearchChange={setSearch}
-            onDescriptionChange={setSelectedDescription}
+            onPriceChange={setSelectedPrice}
             onSortChange={setSortBy}
           />
 

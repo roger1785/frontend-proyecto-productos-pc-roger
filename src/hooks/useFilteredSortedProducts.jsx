@@ -2,7 +2,7 @@ function useFilteredSortedProducts(products, search, selectedPrice, sortBy) {
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(search.toLowerCase()) ||
-      product?.description?.toLowerCase().includes(search.toLowerCase());
+      product?.price?.toString().includes(search);
 
     const matchesPrice = selectedPrice ? product.price <= selectedPrice : true;
 
