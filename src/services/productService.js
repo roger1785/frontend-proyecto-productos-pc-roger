@@ -15,8 +15,25 @@ const handleResponse = async (response) => {
   return data;
 };
 
-export const getProducts = async () => {
-  const response = await fetch(API_URL);
+export const getProducts = async (
+  page = 1,
+  limit = 4,
+  search = "",
+  sortBy = "name",
+  order = "asc",
+  selectedName = "",
+) => {
+  const queryParams = new URLSearchParams({
+    page,
+    limit,
+    search,
+    sortBy,
+    order,
+    name: selectedName,
+  });
+
+  const response = await fetch(`${API_URL}?${queryParams.toString()}`);
+
 
   return handleResponse(response);
 };

@@ -2,7 +2,7 @@ function ProductFilters({
   search,
   selectedPrice,
   sortBy,
-  prices,
+  priceRanges,
   onSearchChange,
   onPriceChange,
   onSortChange,
@@ -30,9 +30,9 @@ function ProductFilters({
         onChange={(event) => onPriceChange(event.target.value)}
       >
         <option value="all">Todos los precios</option>
-        <option value="0-10">Hasta $10</option>
-        <option value="10-20">De $10 a $20</option>
-        <option value="20+">Más de $20</option>
+        <option value="0-60">Hasta $60</option>
+        <option value="60-200">De $60 a $200</option>
+        <option value="200+">Más de $200</option>
       </select>
 
     </div>

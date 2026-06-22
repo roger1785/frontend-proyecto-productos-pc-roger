@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <nav className="header-item">
       <Link to="/">Inicio</Link>
-      <Link to="/movies">Productos</Link>
+      <Link to="/products">Productos</Link>
 
       {user && user.admin && <Link to="/admin">Admin</Link>}
       {user && (
