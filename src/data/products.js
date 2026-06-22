@@ -4,7 +4,7 @@ export const products = [
     name: "Mouse",
     description:
       "Un mouse inalámbrico ergonómico con alta precisión y batería de larga duración.",
-    price: 19.99,
+    price: 39.99,
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=1",
@@ -14,7 +14,7 @@ export const products = [
     name: "Keyboard",
     description:
       "Un teclado mecánico con retroiluminación RGB y switches de alta calidad para una experiencia de escritura superior.",
-    price: 19.99,
+    price: 100.99,
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=2",
@@ -24,7 +24,7 @@ export const products = [
     name: "Gaming Headset",
     description:
       "Un auricular de juego con sonido envolvente y micrófono de alta calidad para una experiencia de juego inmersiva.",
-    price: 19.99,
+    price: 122.99,
     stock: 10,
     category: "Accesories",
 
@@ -35,7 +35,7 @@ export const products = [
     name: "USB Hub",
     description:
       "Un hub USB que permite conectar múltiples dispositivos a un solo puerto de tu computadora.",
-    price: 19.99,
+    price: 49.99,
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=4",
@@ -45,7 +45,7 @@ export const products = [
     name: "Gaming Mouse",
     description:
       "Un mouse de juego con alta precisión y batería de larga duración para una experiencia de juego superior.",
-    price: 19.99,
+    price: 79.99,
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=6",
@@ -55,7 +55,7 @@ export const products = [
     name: "Laptop Stand",
     description:
       "Un soporte para laptop que permite una mejor ventilación y una posición más ergonómica para trabajar.",
-    price: 19.99,
+    price: 119.99,
     stock: 10,
     category: "Accesories",
     image: "https://picsum.photos/300/400?random=5",
@@ -65,7 +65,7 @@ export const products = [
     name: "Ordenador portátil",
     description:
       "Un ordenador portátil de alta gama con procesador rápido y memoria suficiente para manejar tareas intensivas.",
-    price: 19.99,
+    price: 1000.99,
     stock: 10,
     category: "Tecnología",
     image: "https://picsum.photos/300/400?random=7",
@@ -75,7 +75,7 @@ export const products = [
     name: "Discos duros externos",
     description:
       "Un disco duro externo de alta capacidad para almacenar y transferir datos de forma rápida y segura.",
-    price: 19.99,
+    price: 199.99,
     stock: 10,
     category: "Tecnología",
 
@@ -86,7 +86,7 @@ export const products = [
     name: "Pendrive USB",
     description:
       "Un pendrive USB de alta capacidad para almacenar y transferir datos de forma rápida y segura.",
-    price: 19.99,
+    price: 39.99,
     stock: 10,
     category: "Tecnología",
     image: "https://picsum.photos/300/400?random=9",

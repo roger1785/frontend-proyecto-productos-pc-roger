@@ -11,7 +11,7 @@ function SearchBox({ products }) {
       const name = product.name.toLowerCase();
 
       return (
-        name.includes(normalizedSearch) || price.includes(normalizedSearch)
+        name.includes(normalizedSearch) || product.price.toString().includes(normalizedSearch)
       );
     })
     .slice(0, 3);

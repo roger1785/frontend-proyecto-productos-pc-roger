@@ -16,13 +16,13 @@ function useFilteredSortedProducts(products, search, selectedPrice, sortBy) {
       return 0;
     }
 
-    if (sortBy === "newest") {
+    if (sortBy === "expensive") {
       if (a.price > b.price) return -1;
       if (a.price < b.price) return 1;
       return 0;
     }
 
-    if (sortBy === "oldest") {
+    if (sortBy === "cheaper") {
       if (a.price < b.price) return -1;
       if (a.price > b.price) return 1;
       return 0;

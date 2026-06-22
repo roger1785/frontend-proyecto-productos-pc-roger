@@ -13,7 +13,7 @@ function Home() {
     const loadProducts = async () => {
       try {
         const data = await getProducts();
-        // console.log(data);
+
         setProducts(data);
       } catch {
         setError("No se pudieron cargar los productos");

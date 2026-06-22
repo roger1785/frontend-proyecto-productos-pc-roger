@@ -6,7 +6,7 @@ function ProductCarousel({ products }) {
       <div className="container">
         <div className="product-carousel-header">
           <h2>Contenido destacado</h2>
-          <span>Desleza para ver mas</span>
+          <span>Desliza para ver mas</span>
         </div>
 
         <div className="product-carousel">
