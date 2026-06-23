@@ -2,7 +2,22 @@ const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 const getToken = () => {
   const token = localStorage.getItem("token");
-  return token ? `Bearer ${token}` : null;
+
+  if (!token) {
+    return null;
+  }
+
+  return token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+};
+
+const normalizeProduct = (product) => ({
+  ...product,
+  _id: product._id ?? product.id,
+});
+
+const normalizeProductResponse = (data) => {
+  const maybeProduct = data?.product ?? data;
+  return maybeProduct ? normalizeProduct(maybeProduct) : data;
 };
 
 const handleResponse = async (response) => {
@@ -22,6 +37,7 @@ export const getProducts = async (
   sortBy = "name",
   order = "asc",
   selectedName = "",
+  category = "",
 ) => {
   const queryParams = new URLSearchParams({
     page,
@@ -30,18 +46,32 @@ export const getProducts = async (
     sortBy,
     order,
     name: selectedName,
+    category,
   });
 
   const response = await fetch(`${API_URL}?${queryParams.toString()}`);
+  const data = await handleResponse(response);
 
+  const normalizeProduct = (product) => ({
+    ...product,
+    _id: product._id ?? product.id,
+  });
 
-  return handleResponse(response);
+  const normalizeProducts = (items) =>
+    Array.isArray(items) ? items.map(normalizeProduct) : [];
+
+  // Si la respuesta tiene una propiedad 'products', retornarla
+  // Si no, retornar el data directamente como array
+  return Array.isArray(data)
+    ? normalizeProducts(data)
+    : normalizeProducts(data.products || []);
 };
 
 export const getProductById = async (productId) => {
   const response = await fetch(`${API_URL}/${productId}`);
+  const data = await handleResponse(response);
 
-  return handleResponse(response);
+  return normalizeProductResponse(data);
 };
 
 export const createProduct = async (productData) => {
@@ -57,7 +87,8 @@ export const createProduct = async (productData) => {
     body: JSON.stringify(productData),
   });
 
-  return handleResponse(response);
+  const data = await handleResponse(response);
+  return normalizeProductResponse(data);
 };
 
 export const updateProduct = async (productId, productData) => {
@@ -73,7 +104,8 @@ export const updateProduct = async (productId, productData) => {
     body: JSON.stringify(productData),
   });
 
-  return handleResponse(response);
+  const data = await handleResponse(response);
+  return normalizeProductResponse(data);
 };
 
 export const deleteProduct = async (productId) => {

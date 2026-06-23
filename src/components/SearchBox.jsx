@@ -1,34 +1,51 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getProducts } from "../services/productService";
 
-function SearchBox({ products }) {
+function SearchBox() {
   const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const normalizedSearch = search.toLowerCase().trim();
+  useEffect(() => {
+    const term = search.trim();
 
-  const results = products
-    .filter((product) => {
-      const name = product.name.toLowerCase();
+    if (!term) {
+      setResults([]);
+      setIsLoading(false);
+      return;
+    }
 
-      return (
-        name.includes(normalizedSearch) || product.price.toString().includes(normalizedSearch)
-      );
-    })
-    .slice(0, 3);
+    const timeoutId = setTimeout(async () => {
+      try {
+        setIsLoading(true);
+        const data = await getProducts(1, 6, term, "name", "asc", "", "");
+        setResults(Array.isArray(data) ? data : []);
+      } catch {
+        setResults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 250);
+
+    return () => clearTimeout(timeoutId);
+  }, [search]);
 
   return (
     <div className="search-box">
       <input
         className="search-box-input"
         type="search"
-        placeholder="Buscar..."
+        placeholder="Buscar por nombre o descripción..."
         value={search}
         onChange={(event) => setSearch(event.target.value)}
       />
 
-      {search.trim() != "" && (
+      {search.trim() !== "" && (
         <div className="search-box-results">
-          {results.length > 0 ? (
+          {isLoading ? (
+            <p className="search-box-empty">Buscando...</p>
+          ) : results.length > 0 ? (
             results.map((product) => (
               <Link
                 key={product._id}
@@ -37,9 +54,7 @@ function SearchBox({ products }) {
                 to={`/products/${product._id}`}
               >
                 <strong>{product.name}</strong>
-                <span>
-                  ${product.price.toFixed(2)}
-                </span>
+                <span>${Number(product.price ?? 0).toFixed(2)}</span>
               </Link>
             ))
           ) : (

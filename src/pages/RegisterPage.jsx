@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { register } from "../services/authService";
+import { useNavigate } from "react-router-dom";
+import { register, login } from "../services/authService";
+import { useAuth } from "../hooks/useAuth";
 
 const initialForm = {
   name: "",
@@ -12,6 +14,8 @@ const initialForm = {
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function RegisterPage() {
+  const navigate = useNavigate();
+  const auth = useAuth();
   const [form, setForm] = useState(initialForm);
 
   const [message, setMessage] = useState("");
@@ -77,10 +81,15 @@ function RegisterPage() {
       };
 
       const data = await register(user);
+      const authData =
+        data.token && data.user
+          ? data
+          : await login({ email: user.email, password: user.password });
 
-      setMessage(data.message || "Usuario registrado correctamente");
-
+      auth.login(authData);
+      setMessage(authData.message || "Usuario registrado correctamente");
       setForm(initialForm);
+      navigate("/products");
     } catch (error) {
       setError(error.message);
     }

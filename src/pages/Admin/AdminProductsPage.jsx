@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import ProductForm from "../../components/ProductForm";
 import {
   createProduct,
@@ -20,28 +20,33 @@ function AdminProductsPage() {
   const messageRef = useRef(null);
   const formRef = useRef(null);
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch {
-        setError("No se pudieron cargar los productos");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadProducts();
+  const loadProducts = useCallback(async () => {
+    try {
+      setError("");
+      const data = await getProducts(1, 100, "", "name", "asc", "", "");
+      setProducts(Array.isArray(data) ? data : []);
+    } catch {
+      setError("No se pudieron cargar los productos");
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
   const handleCreateProduct = async (productData) => {
     try {
       setIsSaving(true);
+      setError("");
 
       const newProduct = await createProduct(productData);
 
-      setProducts([...products, newProduct]);
+      setProducts((prevProducts) => [...prevProducts, newProduct]);
       setShowForm(false);
+      setSelectedProduct(null);
       setMessage("Producto creado correctamente");
     } catch (error) {
       setError(error.message);
@@ -53,12 +58,13 @@ function AdminProductsPage() {
   const handleDeleteProduct = async (id) => {
     try {
       setIsSaving(true);
+      setError("");
 
       await deleteProduct(id);
 
-      const filteredProducts = products.filter((product) => product._id != id);
-
-      setProducts(filteredProducts);
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== id),
+      );
       setProductToDelete(null);
 
       setMessage("Producto eliminado correctamente");
@@ -72,11 +78,12 @@ function AdminProductsPage() {
   const handleUpdateProduct = async (productId, productData) => {
     try {
       setIsSaving(true);
+      setError("");
 
       const updatedProduct = await updateProduct(productId, productData);
 
       const updatedProducts = products.map((product) => {
-        if (product._id == productId) {
+        if (product._id === productId) {
           return updatedProduct;
         }
 
@@ -115,11 +122,17 @@ function AdminProductsPage() {
       return;
     }
 
-    document.addEventListener("keydown", (event) => {
+    const onKeyDown = (event) => {
       if (event.key === "Escape") {
         setProductToDelete(null);
       }
-    });
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [productToDelete]);
 
   useEffect(() => {
@@ -185,7 +198,7 @@ function AdminProductsPage() {
             <div>
               <h3>{product.name}</h3>
               <p>
-                {product.price} • {product.stock}{" "}
+                {`$${Number(product.price ?? 0).toFixed(2)} • ${product.stock} en stock`}
               </p>
 
               <div className="admin-actions">

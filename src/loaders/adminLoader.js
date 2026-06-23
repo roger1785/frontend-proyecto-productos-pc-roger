@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { isAdminUser } from "../utils/auth";
 
 function adminLoader() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -7,7 +8,7 @@ function adminLoader() {
     return redirect("/auth/login");
   }
 
-  if (!user.admin) {
+  if (!isAdminUser(user)) {
     return redirect("/");
   }
 }

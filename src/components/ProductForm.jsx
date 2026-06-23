@@ -1,5 +1,5 @@
-import { categories } from "../data/categories";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useCategory } from "../context/CategoryContext";
 
 const initialForm = {
   name: "",
@@ -12,9 +12,57 @@ const initialForm = {
 };
 
 function ProductForm({ onCreateProduct, onUpdateProduct, isSaving, product }) {
-  const [form, setForm] = useState(initialForm);
+  const formRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const { categories } = useCategory();
+
+  const getCategoryId = (value) => {
+    if (typeof value === "string") {
+      const matchedCategory = categories.find(
+        (category) => String(category._id ?? category.id) === value,
+      );
+
+      if (matchedCategory) {
+        return String(matchedCategory._id ?? matchedCategory.id);
+      }
+
+      const matchedByName = categories.find(
+        (category) => category.name === value,
+      );
+      if (matchedByName) {
+        return String(matchedByName._id ?? matchedByName.id);
+      }
+
+      return value;
+    }
+
+    if (value && typeof value === "object") {
+      return String(value._id ?? value.id ?? "");
+    }
+
+    return "";
+  };
+
+  const buildInitialState = () => {
+    if (!product) return initialForm;
+
+    return {
+      ...initialForm,
+      ...product,
+      category: getCategoryId(product.category),
+      price: String(product.price ?? ""),
+      stock: String(product.stock ?? ""),
+    };
+  };
+
+  const [form, setForm] = useState(buildInitialState);
 
   const isEditing = Boolean(product);
+
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    nameInputRef.current?.focus();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -58,31 +106,29 @@ function ProductForm({ onCreateProduct, onUpdateProduct, isSaving, product }) {
       return;
     }
 
+    const payload = {
+      ...form,
+      price: parseFloat(form.price),
+      stock: parseInt(form.stock, 10),
+    };
+
     if (isEditing) {
-      await onUpdateProduct(product._id, form);
+      await onUpdateProduct(product._id, payload);
     } else {
-      await onCreateProduct(form);
+      await onCreateProduct(payload);
     }
 
     setForm(initialForm);
   };
 
-  useEffect(() => {
-    if (product) {
-      setForm({
-        ...initialForm,
-        ...product,
-      });
-    }
-  }, [product]);
-
   return (
-    <form className="product-form" onSubmit={handleSubmit}>
+    <form ref={formRef} className="product-form" onSubmit={handleSubmit}>
       <h2>{isEditing ? "Editar producto" : "Nuevo Producto"}</h2>
 
       <div className="form-group">
         <label htmlFor="name">Nombre: </label>
         <input
+          ref={nameInputRef}
           type="text"
           placeholder="Nuevo Producto"
           id="name"
@@ -126,7 +172,10 @@ function ProductForm({ onCreateProduct, onUpdateProduct, isSaving, product }) {
         >
           <option value="">Seleccionar una categoría</option>
           {categories.map((category) => (
-            <option key={category.id} value={category.id}>
+            <option
+              key={category._id ?? category.id}
+              value={String(category._id ?? category.id)}
+            >
               {category.name}
             </option>
           ))}
@@ -140,14 +189,7 @@ function ProductForm({ onCreateProduct, onUpdateProduct, isSaving, product }) {
           name="description"
           value={form.description}
           onChange={handleChange}
-        >
-          <option value="">Seleccionar una categoría</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </textarea>
+        />
       </div>
 
       <div className="form-group">
@@ -175,8 +217,6 @@ function ProductForm({ onCreateProduct, onUpdateProduct, isSaving, product }) {
       >
         {isSaving ? "Guardando..." : "Guardar producto"}
       </button>
-
-      <pre>{JSON.stringify(form, null, 2)}</pre>
     </form>
   );
 }

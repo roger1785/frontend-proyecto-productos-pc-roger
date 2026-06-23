@@ -74,7 +74,7 @@ function LoginPage() {
 
       setForm(initialForm);
 
-      navigate("/admin/movies");
+      navigate("/products");
     } catch (error) {
       setError(error.message);
     }

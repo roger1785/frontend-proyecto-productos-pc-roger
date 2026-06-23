@@ -10,6 +10,9 @@ import DashboardPage from "../pages/Admin/DashboardPage";
 import AdminProductsPage from "../pages/Admin/AdminProductsPage";
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
+import PromotionsPage from "../pages/PromotionsPage";
+import OffersPage from "../pages/OffersPage";
+import CartPage from "../pages/CartPage";
 
 import adminLoader from "../loaders/adminLoader";
 
@@ -31,7 +34,18 @@ export const router = createBrowserRouter([
         path: "products/:id",
         element: <ProductDetailPage />,
       },
-     
+      {
+        path: "promotions",
+        element: <PromotionsPage />,
+      },
+      {
+        path: "offers",
+        element: <OffersPage />,
+      },
+      {
+        path: "cart",
+        element: <CartPage />,
+      },
     ],
   },
   {
