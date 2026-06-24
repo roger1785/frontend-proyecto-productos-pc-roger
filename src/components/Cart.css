@@ -17,6 +17,18 @@
     background-color: rgba(37, 99, 235, 0.1);
 }
 
+.cart-icon-image {
+    width: 22px;
+    height: 22px;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(36%) sepia(8%) saturate(632%) hue-rotate(177deg) brightness(94%) contrast(88%);
+    transition: filter 0.2s ease;
+}
+
+.cart-icon:hover .cart-icon-image {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(96%) saturate(1298%) hue-rotate(204deg) brightness(98%) contrast(99%);
+}
+
 .cart-count {
     position: absolute;
     top: -8px;
