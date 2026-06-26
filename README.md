@@ -1,183 +1,520 @@
 # Frontend Proyecto Productos PC
 
-Aplicacion web de tienda online para explorar productos de computacion, filtrar catalogo, ver detalle, gestionar carrito y administrar productos.
+Aplicación web desarrollada con React para gestionar catálogo de productos, carrito de compra, autenticación y panel de administración.
 
-## Stack
+---
 
-- React 19
-- React Router DOM 7
+# Características
+
+- Catálogo de productos con filtros y búsqueda
+- Vista de detalle por producto
+- Carrito con persistencia en localStorage
+- Registro e inicio de sesión
+- Protección de rutas de administración
+- CRUD de productos desde panel admin
+- Secciones de promociones y ofertas
+- Tests de componentes con Vitest
+
+---
+
+# 🛠 Tecnologías utilizadas
+
+- React
+- React Router DOM
 - Vite
 - CSS
-- Vitest + Testing Library
+- Vitest
+- Testing Library
+- ESLint
 
-## Scripts disponibles
+---
+
+# Instalación
+
+Clonar el repositorio:
+
+```bash
+git clone <url-del-repositorio>
+```
+
+Ingresar al proyecto:
+
+```bash
+cd frontend-proyecto-productos-pc-roger
+```
+
+Instalar dependencias:
 
 ```bash
 npm install
-npm run dev
-npm run build
-npm run preview
-npm run test
-npm run lint
 ```
 
-Descripcion de scripts:
+---
 
-- `npm run dev`: inicia el frontend en modo desarrollo.
-- `npm run build`: genera el build de produccion.
-- `npm run preview`: levanta el build para probarlo en local.
-- `npm run test`: ejecuta pruebas de componentes.
-- `npm run lint`: revisa calidad de codigo con ESLint.
+# Variables de entorno
 
-## Variables de entorno
+Crear un archivo `.env` utilizando como referencia `.env.example` (si lo tienes) o directamente con este formato.
 
-Crear archivo `.env` en la raiz:
+## .env.example
+
+```env
+VITE_API_URL=
+```
+
+## Ejemplo
 
 ```env
 VITE_API_URL=http://localhost:3000
 ```
 
-Variable usada:
+---
 
-- `VITE_API_URL`: URL base del backend (auth, products, categories).
-
-## Instalacion y ejecucion
-
-1. Clona el repositorio.
-2. Entra en la carpeta del proyecto.
-3. Instala dependencias:
-
-```bash
-npm install
-```
-
-4. Configura `.env` con la URL de tu backend.
-5. Inicia la app:
+# Ejecutar en desarrollo
 
 ```bash
 npm run dev
 ```
 
-## Rutas principales
+---
 
-- `/`: inicio
-- `/products`: catalogo de productos
-- `/products/:id`: detalle de producto
-- `/promotions`: productos en promocion
-- `/offers`: ofertas (categoria gaming)
-- `/cart`: carrito
-- `/auth/register`: registro
-- `/auth/login`: login
-- `/admin`: dashboard admin
-- `/admin/products`: gestion de productos (admin)
+# Ejecutar en producción
 
-## Funcionalidades del frontend
-
-### Home
-
-- Muestra banner principal, categorias destacadas, carrusel y productos destacados.
-- Desde categorias destacadas redirige al catalogo filtrado.
-
-### Catalogo
-
-- Lista productos con cards.
-- Permite filtrar por:
-  - texto (nombre/descripcion)
-  - categoria
-  - rango de precio
-  - orden
-- Si no hay resultados, muestra estado vacio.
-
-### Detalle de producto
-
-- Vista individual con imagen, descripcion, precio y stock.
-- Boton para anadir al carrito.
-
-### Carrito
-
-- Agregar producto desde cards o detalle.
-- Subir/bajar cantidad.
-- Eliminar producto.
-- Vaciar carrito.
-- Calculo automatico de total.
-- Persistencia en localStorage.
-
-### Autenticacion
-
-- Registro de usuario.
-- Login de usuario.
-- Logout.
-- Guardado de token y usuario en localStorage.
-
-### Administracion (admin)
-
-- Acceso protegido por rol.
-- Lista de productos en panel interno.
-- Crear, editar y eliminar productos.
-- Confirmacion de eliminacion en modal.
-
-## Integracion con backend
-
-Servicios que consume el frontend:
-
-- Auth:
-  - `POST /auth/register`
-  - `POST /auth/login`
-
-- Products:
-  - `GET /products`
-  - `GET /products/:id`
-  - `POST /products` (admin)
-  - `PUT /products/:id` (admin)
-  - `DELETE /products/:id` (admin)
-
-- Categories:
-  - `GET /categories`
-
-Comportamiento importante:
-
-- El frontend soporta respuestas con IDs en `id` o `_id`.
-- En operaciones admin envia token en `Authorization: Bearer <token>`.
-
-## Resumen de permisos en frontend
-
-- Publico:
-  - Inicio, catalogo, detalle, promociones, ofertas, carrito, login y registro.
-
-- Solo admin:
-  - `/admin`
-  - `/admin/products`
-
-Si no hay sesion o no es admin, se redirige automaticamente.
-
-## Estructura del proyecto
-
-```text
-src/
-  assets/       recursos estaticos
-  components/   componentes reutilizables
-  context/      estado global (auth, cart, category)
-  hooks/        hooks custom
-  layouts/      layouts principal y admin
-  loaders/      proteccion de rutas
-  pages/        pantallas por ruta
-  routes/       configuracion de rutas
-  services/     llamadas al backend
-  tests/        pruebas de componentes
-  utils/        utilidades
+```bash
+npm run build
+npm run preview
 ```
 
-## Testing
+---
 
-Comando:
+# Ejecutar tests
 
 ```bash
 npm run test
 ```
 
-Actualmente hay pruebas para componentes clave del flujo de UI.
+---
 
-## Notas finales
+# Cargar datos iniciales
 
-- El proyecto esta preparado para seguir creciendo con checkout real y pagos.
-- El flujo principal de compra y administracion ya esta implementado y funcional.
+En este frontend no hay seeder propio.
+Los datos iniciales se gestionan en el backend conectado por `VITE_API_URL`.
+
+---
+
+# Endpoints
+
+---
+
+## Home
+
+### GET /
+
+Ruta principal del frontend.
+
+### Respuesta Exitosa
+
+#### Status: 200 OK
+
+```json
+{
+  "message": "Vista de inicio cargada correctamente"
+}
+```
+
+---
+
+# Autenticación
+
+## Registro
+
+### POST /auth/register
+
+Registra un nuevo usuario (consumido desde frontend).
+
+### Body
+
+```json
+{
+  "name": "Roger",
+  "email": "roger@example.com",
+  "password": "123456"
+}
+```
+
+### Respuesta Exitosa
+
+#### Status: 201 Created
+
+```json
+{
+  "message": "Usuario registrado correctamente"
+}
+```
+
+### Posibles Errores
+
+#### Status: 400 Bad Request
+
+```json
+{
+  "message": "Todos los campos son obligatorios"
+}
+```
+
+#### Status: 422 Unprocessable Entity
+
+```json
+{
+  "message": "El correo no es válido"
+}
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "Error en la petición"
+}
+```
+
+---
+
+## Login
+
+### POST /auth/login
+
+Inicia sesión y devuelve token + usuario.
+
+### Body
+
+```json
+{
+  "email": "roger@example.com",
+  "password": "123456"
+}
+```
+
+### Respuesta Exitosa
+
+#### Status: 200 OK
+
+```json
+{
+  "token": "jwt-token",
+  "user": {
+    "_id": "...",
+    "name": "Roger",
+    "email": "roger@example.com"
+  }
+}
+```
+
+### Posibles Errores
+
+#### Status: 400 Bad Request
+
+```json
+{
+  "message": "Todos los campos son obligatorios"
+}
+```
+
+#### Status: 401 Unauthorized
+
+```json
+{
+  "message": "Credenciales inválidas"
+}
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "Error en la petición"
+}
+```
+
+---
+
+# Productos
+
+## Obtener todos los productos
+
+### GET /products
+
+Devuelve los productos para el catálogo.
+
+### Respuesta Exitosa
+
+#### Status: 200 OK
+
+```json
+[
+  {
+    "_id": "...",
+    "name": "Teclado mecánico",
+    "price": 89.99,
+    "stock": 10,
+    "image": "https://..."
+  }
+]
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "No se pudieron cargar los productos"
+}
+```
+
+---
+
+## Obtener producto por ID
+
+### GET /products/:id
+
+Devuelve un producto por su ID.
+
+### Respuesta Exitosa
+
+#### Status: 200 OK
+
+```json
+{
+  "_id": "...",
+  "name": "Teclado mecánico",
+  "description": "Switch blue",
+  "price": 89.99,
+  "stock": 10,
+  "image": "https://..."
+}
+```
+
+### Posibles Errores
+
+#### Status: 404 Not Found
+
+```json
+{
+  "message": "Contenido no encontrado"
+}
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "Error en la petición"
+}
+```
+
+---
+
+## Crear producto
+
+### POST /products
+
+Requiere autenticación de admin.
+
+### Headers
+
+```txt
+Authorization: Bearer TOKEN
+```
+
+### Body
+
+```json
+{
+  "name": "Mouse Gamer X",
+  "category": "<categoryId>",
+  "description": "Mouse ergonómico",
+  "price": 59.9,
+  "stock": 10,
+  "image": "https://...",
+  "featured": false
+}
+```
+
+### Respuesta Exitosa
+
+#### Status: 201 Created
+
+```json
+{
+  "_id": "...",
+  "name": "Mouse Gamer X",
+  "price": 59.9,
+  "stock": 10
+}
+```
+
+### Posibles Errores
+
+#### Status: 401 Unauthorized
+
+```json
+{
+  "message": "No autorizado"
+}
+```
+
+#### Status: 422 Unprocessable Entity
+
+```json
+{
+  "message": "Datos inválidos"
+}
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "Error en la petición"
+}
+```
+
+---
+
+## Actualizar producto
+
+### PUT /products/:id
+
+Requiere autenticación de admin.
+
+### Headers
+
+```txt
+Authorization: Bearer TOKEN
+```
+
+### Respuesta Exitosa
+
+#### Status: 200 OK
+
+```json
+{
+  "_id": "...",
+  "name": "Mouse Gamer X Pro",
+  "price": 69.9,
+  "stock": 8
+}
+```
+
+### Posibles Errores
+
+#### Status: 401 Unauthorized
+
+```json
+{
+  "message": "No autorizado"
+}
+```
+
+#### Status: 404 Not Found
+
+```json
+{
+  "message": "Producto no encontrado"
+}
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "Error en la petición"
+}
+```
+
+---
+
+## Eliminar producto
+
+### DELETE /products/:id
+
+Requiere autenticación de admin.
+
+### Headers
+
+```txt
+Authorization: Bearer TOKEN
+```
+
+### Respuesta Exitosa
+
+#### Status: 200 OK
+
+```json
+{
+  "message": "Producto eliminado correctamente"
+}
+```
+
+### Posibles Errores
+
+#### Status: 401 Unauthorized
+
+```json
+{
+  "message": "No autorizado"
+}
+```
+
+#### Status: 404 Not Found
+
+```json
+{
+  "message": "Producto no encontrado"
+}
+```
+
+#### Status: 500 Internal Server Error
+
+```json
+{
+  "message": "Error en la petición"
+}
+```
+
+---
+
+# Deploy
+
+Frontend ejecutado en entorno local con Vite.
+
+```txt
+http://localhost:5173
+```
+
+---
+
+# Estructura del proyecto
+
+```txt
+src/
+│
+├── assets/
+├── components/
+├── context/
+├── hooks/
+├── layouts/
+├── loaders/
+├── pages/
+├── routes/
+├── services/
+├── tests/
+│
+└── utils/
+```
+
+---
+
+# Autor
+
+Proyecto desarrollado como práctica/entrega del Bootcamp Full Stack de Neoland.
+
+Autor: Roger
