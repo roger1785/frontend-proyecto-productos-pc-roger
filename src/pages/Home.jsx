@@ -37,7 +37,13 @@ function Home() {
     ...category,
     id: category._id ?? category.id ?? `${category.name}-${index}`,
     image:
-      category.image || `https://picsum.photos/320/320?random=${index + 10}`,
+      category.image ||
+      {
+        accesorios: "/images/products/accesorios.jpg",
+        componentes: "/images/products/componentes.jpg",
+        gaming: "/images/products/gaming.jpg",
+      }[String(category.name).toLowerCase()] ||
+      `https://picsum.photos/320/320?random=${index + 10}`,
   }));
 
   const features = [

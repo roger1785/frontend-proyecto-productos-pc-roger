@@ -1,13 +1,56 @@
 const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
-const getToken = () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
+const findToken = (value) => {
+  if (!value || typeof value !== "object") {
     return null;
   }
 
-  return token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+  if (typeof value.token === "string") return value.token;
+  if (typeof value.accessToken === "string") return value.accessToken;
+  if (typeof value.access_token === "string") return value.access_token;
+
+  for (const nestedValue of Object.values(value)) {
+    if (nestedValue && typeof nestedValue === "object") {
+      const token = findToken(nestedValue);
+      if (token) return token;
+    }
+  }
+
+  return null;
+};
+
+const getToken = () => {
+  const directToken = localStorage.getItem("token");
+
+  if (directToken) {
+    return directToken.startsWith("Bearer ")
+      ? directToken
+      : `Bearer ${directToken}`;
+  }
+
+  const storedUser = localStorage.getItem("user");
+
+  if (!storedUser) {
+    return null;
+  }
+
+  let parsedUser = null;
+
+  try {
+    parsedUser = JSON.parse(storedUser);
+  } catch {
+    return null;
+  }
+
+  const fallbackToken = findToken(parsedUser);
+
+  if (!fallbackToken) {
+    return null;
+  }
+
+  return fallbackToken.startsWith("Bearer ")
+    ? fallbackToken
+    : `Bearer ${fallbackToken}`;
 };
 
 const normalizeProduct = (product) => ({
